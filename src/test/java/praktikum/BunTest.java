@@ -14,6 +14,7 @@ public class BunTest {
 
     private final String name;
     private final float price;
+    private final float delta = 0;
 
     Bun bun;
 
@@ -49,7 +50,8 @@ public class BunTest {
     public void getPriceBunTest() {
         Assert.assertEquals("Цена не соответсвует создаваемой"
                 , price
-                , bun.getPrice(), 0);
+                , bun.getPrice()
+                , delta);
 
     }
 }

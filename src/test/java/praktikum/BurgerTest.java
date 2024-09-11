@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -15,11 +16,10 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
 
-    //Сделаем шпионов, потом пригодится для печати рецепта
-    @Spy
-    Bun bun = new Bun("Булочка за сотку", 100f );
-    @Spy
-    Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "Подлива", 50f);
+    @Mock
+    Bun bun;//= new Bun("Булочка за сотку", 100f );
+    @Mock
+    Ingredient ingredient;// = new Ingredient(IngredientType.SAUCE, "Подлива", 50f);
     @Mock
     Ingredient ingredient2;
 
@@ -28,6 +28,13 @@ public class BurgerTest {
     @Before
     public void beforeTest() {
         burger = new Burger();
+        //Пропишем, что ожидаем получить при вызове моков
+        //Потребуется для getPriceBurgerTest и getReceiptBurgerTest
+        Mockito.when(bun.getPrice()).thenReturn(100f);
+        Mockito.when(bun.getName()).thenReturn("Вкусная булочка");
+        Mockito.when(ingredient.getPrice()).thenReturn(50f);
+        Mockito.when(ingredient.getType()).thenReturn(IngredientType.SAUCE);
+        Mockito.when(ingredient.getName()).thenReturn("томатный");
     }
 
     @Test
@@ -108,10 +115,10 @@ public class BurgerTest {
         burger.addIngredient(ingredient);
         burger.addIngredient(ingredient);
 
-        String expected = "(==== Булочка за сотку ====)\r\n"
-                + "= sauce Подлива =\r\n"
-                + "= sauce Подлива =\r\n"
-                + "(==== Булочка за сотку ====)\r\n"
+        String expected = "(==== Вкусная булочка ====)\r\n"
+                + "= sauce томатный =\r\n"
+                + "= sauce томатный =\r\n"
+                + "(==== Вкусная булочка ====)\r\n"
                 + "\r\n"
                 + "Price: 300,000000\r\n";
 
